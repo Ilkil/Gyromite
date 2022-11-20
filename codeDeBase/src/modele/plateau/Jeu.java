@@ -16,8 +16,8 @@ import java.util.HashMap;
  */
 public class Jeu {
 
-    public static final int SIZE_X = 20;
-    public static final int SIZE_Y = 10;
+    public static final int SIZE_X = 40;
+    public static final int SIZE_Y = 20;
 
     // compteur de déplacements horizontal et vertical (1 max par défaut, à chaque pas de temps)
     private HashMap<Entite, Integer> cmptDeplH = new HashMap<Entite, Integer>();
@@ -25,6 +25,7 @@ public class Jeu {
 
     private Heros hector;
     private Bot bot;
+	private Bot bot_floor;
 
     private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -54,8 +55,10 @@ public class Jeu {
     
     private void initialisationDesEntites() {
         bot = new Bot(this);
+		bot_floor = new Bot(this);
         hector = new Heros(this);
         addEntite(hector, 12, 1);
+        addEntite(bot_floor, 12, 18);
         addEntite(bot, 3, 5);
 
         Gravite g = new Gravite();
@@ -64,21 +67,22 @@ public class Jeu {
 
         IA ia = new IA();
         ia.addEntiteDynamique(bot);
+        ia.addEntiteDynamique(bot_floor);
         ordonnanceur.add(ia);
 
         Controle4Directions.getInstance().addEntiteDynamique(hector);
         ordonnanceur.add(Controle4Directions.getInstance());
 
         // murs extérieurs horizontaux
-        for (int x = 0; x < 20; x++) {
+        for (int x = 0; x < 40; x++) {
             addEntite(new Mur(this), x, 0);
-            addEntite(new Mur(this), x, 9);
+            addEntite(new Mur(this), x, 19);
         }
 
         // murs extérieurs verticaux
-        for (int y = 1; y < 9; y++) {
+        for (int y = 1; y < 20; y++) {
             addEntite(new Mur(this), 0, y);
-            addEntite(new Mur(this), 19, y);
+            addEntite(new Mur(this), 39, y);
         }
 
         addEntite(new Mur(this), 2, 6);
