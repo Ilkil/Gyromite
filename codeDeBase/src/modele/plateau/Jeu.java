@@ -20,7 +20,7 @@ import java.util.HashMap;
  * (ajouter conditions de victoire, chargement du plateau, etc.)
  */
 public class Jeu {
-
+    public static final int NB_BOTS = 3;
     public static final int SIZE_X = 40;
     public static final int SIZE_Y = 20;
 
@@ -29,7 +29,7 @@ public class Jeu {
     private HashMap<Entite, Integer> cmptDeplV = new HashMap<Entite, Integer>();
 
     private Heros hector;
-    private Bot bot;
+    private Bot[] bot;
     private Colonne col;
 
     private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
@@ -73,13 +73,19 @@ public class Jeu {
 
     private void initialisationDesEntites() {
         //Création Entités Dynamiques
-        bot = new Bot(this);
+        bot = new Bot[NB_BOTS];
+        for (int i = 0; i < NB_BOTS; i++) {
+            bot[i] = new Bot(this);
+        }
         hector = new Heros(this);
         col = new Colonne(this);
-        addEntite(hector,1, 17); // sur un pillier 
-        addEntite(bot, 3, 3);
+        addEntite(hector,1, 17); // sur un pillier
         addEntite(col, 6,2);
 
+
+        addEntite(bot[0], 3, 3);
+        addEntite(bot[1], 10,1);
+        addEntite(bot[2], 10,5);
             /*Random rand = new Random();
             for (int x=1; x<19; x=x+2) {
                 int myrand = rand.nextInt(39);
@@ -95,7 +101,9 @@ public class Jeu {
 
         //Mouvements des Entités
         IA ia = new IA();
-        ia.addEntiteDynamique(bot);
+        for(int i=0; i<NB_BOTS; i++) {
+            ia.addEntiteDynamique(bot[i]);
+        }
         ordonnanceur.add(ia);
 
         Gravite g = new Gravite();
