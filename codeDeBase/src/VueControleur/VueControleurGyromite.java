@@ -42,7 +42,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
-
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = _jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
@@ -72,7 +71,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
 
     private void chargerLesIcones() {
-        icoHero = chargerIcone("Images/player.png", 0, 0, 35, 40);  //chargerIcone("Images/Pacman.png");
+        icoHero = chargerIcone("Images/player.png", 0, 0, 32, 40);  //chargerIcone("Images/Pacman.png");
         icoBot = chargerIcone("Images/smick.png", 0, 0, 35, 25); //chargerIcone("Images/Pacman.png");
         icoVide = chargerIcone("Images/Vide.png"); //chargerIcone("Images/Vide.png");
         icoColonne = chargerIcone("Images/Colonne.png", 0, 0, 18, 18); //chargerIcone("Images/Colonne.png");
@@ -95,7 +94,6 @@ public class VueControleurGyromite extends JFrame implements Observer {
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 JLabel jlab = new JLabel();
-
                 tabJLabel[x][y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
                 grilleJLabels.add(jlab);
             }
@@ -144,6 +142,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 else {
                     tabJLabel[x][y].setIcon(icoMur);
                 }
+				tabJLabel[x][y].setOpaque(true);
+				tabJLabel[x][y].setBackground(new Color(0, 0, 0, 0));
             }
         }
     }

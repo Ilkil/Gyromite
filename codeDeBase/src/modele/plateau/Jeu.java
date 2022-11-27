@@ -77,7 +77,7 @@ public class Jeu {
         hector = new Heros(this);
         col = new Colonne(this);
         addEntite(hector,1, 17); // sur un pillier 
-        addEntite(bot, 3, 5);
+        addEntite(bot, 3, 3);
         addEntite(col, 6,2);
 
             /*Random rand = new Random();
