@@ -49,11 +49,11 @@ public class Jeu {
     public void start(long _pause) {
         ordonnanceur.start(_pause);
     }
-    
+
     public Entite[][] getGrille() {
         return grilleEntites;
     }
-    
+
     public Heros getHector() {
         return hector;
     }
@@ -69,7 +69,7 @@ public class Jeu {
     }*/
 
 
-    
+
 
     private void initialisationDesEntites() {
         //Création Entités Dynamiques
@@ -94,7 +94,7 @@ public class Jeu {
             }*/
 
         //Mouvements des Entités
-        IA ia = new IA();   
+        IA ia = new IA();
         ia.addEntiteDynamique(bot);
         ordonnanceur.add(ia);
 
@@ -110,7 +110,7 @@ public class Jeu {
 
         //Création Entités Statiques
         // murs extérieurs horizontaux
-        for (int x = 0; x < 40; x++) {
+        for (int x = 1; x < 40; x++) {
             addEntite(new Mur(this), x, 0);
             addEntite(new Mur(this), x, 19);
         }
@@ -144,7 +144,7 @@ public class Jeu {
             addEntite(new Sol(this), x, 14);
         }
         for (int x = 1 ; x< 8; x++){
-             addEntite(new Sol(this), x, 16);
+            addEntite(new Sol(this), x, 16);
         }
         for (int x = 1; x<10; x++){
             addEntite(new Sol(this), x, 18);
@@ -183,7 +183,7 @@ public class Jeu {
     private void randomAdd(Entite e) {
 
     }
-    
+
     /** Permet par exemple a une entité  de percevoir sont environnement proche et de définir sa stratégie de déplacement
      *
      */
@@ -191,17 +191,17 @@ public class Jeu {
         Point positionEntite = map.get(e);
         return objetALaPosition(calculerPointCible(positionEntite, d));
     }
-    
+
     /** Si le déplacement de l'entité est autorisé (pas de mur ou autre entité), il est réalisé
      * Sinon, rien n'est fait.
      */
     public boolean deplacerEntite(Entite e, Direction d) {
         boolean retour = false;
-        
+
         Point pCourant = map.get(e);
-        
+
         Point pCible = calculerPointCible(pCourant, d);
-        
+
         if (contenuDansGrille(pCible) && objetALaPosition(pCible) == null) { // a adapter (collisions murs, etc.)
             // compter le déplacement : 1 deplacement horizontal et vertical max par pas de temps par entité
             switch (d) {
@@ -230,11 +230,11 @@ public class Jeu {
 
         return retour;
     }
-    
-    
+
+
     private Point calculerPointCible(Point pCourant, Direction d) {
         Point pCible = null;
-        
+
         switch(d) {
             case haut: pCible = new Point(pCourant.x, pCourant.y - 1); break;
             case bas : pCible = new Point(pCourant.x, pCourant.y + 1); break;
@@ -242,18 +242,18 @@ public class Jeu {
             case droite : pCible = new Point(pCourant.x + 1, pCourant.y); break;
             case dbd : pCible = new Point(pCourant.x + 1, pCourant.y + 1); break;
             case dbg : pCible = new Point(pCourant.x - 1, pCourant.y + 1); break;
-            
+
         }
-        
+
         return pCible;
     }
-    
+
     private void deplacerEntite(Point pCourant, Point pCible, Entite e) {
         grilleEntites[pCourant.x][pCourant.y] = null;
         grilleEntites[pCible.x][pCible.y] = e;
         map.put(e, pCible);
     }
-    
+
     /** Indique si p est contenu dans la grille
      */
     private boolean contenuDansGrille(Point p) {
@@ -266,11 +266,11 @@ public class Jeu {
 
     private Entite objetALaPosition(Point p) {
         Entite retour = null;
-        
+
         if (contenuDansGrille(p)) {
             retour = grilleEntites[p.x][p.y];
         }
-        
+
         return retour;
     }
 

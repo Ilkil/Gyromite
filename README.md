@@ -14,7 +14,7 @@
 - [ ] Gagner le jeu
 - [ ] Ramasser les bombes
 - [ ] Systeme de score
-- [ ] Timer
+- [x] Timer
 - [ ] Ecrasement (par les colonnes)
 - [ ] Ecrasement des Smicks par Hector
 - [x] Fonction supprimer entité

@@ -35,12 +35,13 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private ImageIcon icoVide;
     private ImageIcon icoMur;
     private ImageIcon icoColonne;
-    private ImageIcon icoBombe; 
-    private ImageIcon icoBonus; 
-    private ImageIcon icoCorde; 
-    private ImageIcon icoSol; 
+    private ImageIcon icoBombe;
+    private ImageIcon icoBonus;
+    private ImageIcon icoCorde;
+    private ImageIcon icoSol;
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
+    private modele.plateau.Timer timer;
 
     public VueControleurGyromite(Jeu _jeu) {
         sizeX = _jeu.SIZE_X;
@@ -79,8 +80,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
         icoBombe = chargerIcone("Images/bomb.png", 0, 0, 70, 50); //chargerIcone("Images/bomb.png");
         icoBonus = chargerIcone("Images/particles.png", 0, 0, 20, 20); //chargerIcone("Images/particules.png");
         icoCorde = chargerIcone("Images/tileset.png", 16, 0, 16, 16); //chargerIcone("Images/tileset.png");
-        icoSol = chargerIcone("Images/tileset.png", 0, 0, 5, 5); 
-     }
+        icoSol = chargerIcone("Images/tileset.png", 0, 0, 5, 5);
+    }
 
     private void placerLesComposantsGraphiques() {
         setTitle("Gyromite");
@@ -99,9 +100,11 @@ public class VueControleurGyromite extends JFrame implements Observer {
             }
         }
         add(grilleJLabels);
+
+        timer = new modele.plateau.Timer();
     }
 
-    
+
     /**
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
@@ -112,12 +115,13 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 if (jeu.getGrille()[x][y] instanceof Heros) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
 
                     tabJLabel[x][y].setIcon(icoHero);
+                    //Transparence de l'image icoHero
 
                     //si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
                     //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
                     //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);
 
-                } 
+                }
                 else if (jeu.getGrille()[x][y] instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
                 }
@@ -126,7 +130,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 }
                 else if (jeu.getGrille()[x][y] instanceof Colonne) {
                     tabJLabel[x][y].setIcon(icoColonne);
-                } 
+                }
                 else if (jeu.getGrille()[x][y] instanceof Bombe) {
                     tabJLabel[x][y].setIcon(icoBombe);
                 }
@@ -139,11 +143,17 @@ public class VueControleurGyromite extends JFrame implements Observer {
                 else if (jeu.getGrille()[x][y] instanceof Sol) {
                     tabJLabel[x][y].setIcon(icoSol);
                 }
+                else if (x==0 && y==0) {
+                    String temps = this.timer.getStr();
+                    tabJLabel[x][y].setText(temps);
+                    tabJLabel[x][y].setForeground(Color.red);
+                    tabJLabel[x][y].setBackground(Color.white);
+                }
                 else {
                     tabJLabel[x][y].setIcon(icoMur);
                 }
-				tabJLabel[x][y].setOpaque(true);
-				tabJLabel[x][y].setBackground(new Color(0, 0, 0, 0));
+				/*tabJLabel[x][y].setOpaque(true);
+				tabJLabel[x][y].setBackground(new Color(0, 0, 0, 0));*/
             }
         }
     }
@@ -157,14 +167,14 @@ public class VueControleurGyromite extends JFrame implements Observer {
                     public void run() {
                         mettreAJourAffichage();
                     }
-                }); 
-    
+                });
+
        */
     }
 
 
     // chargement de l'image entière comme icone
-     private ImageIcon chargerIcone(String urlIcone) {
+    private ImageIcon chargerIcone(String urlIcone) {
         BufferedImage image = null;
 
         try {
@@ -183,8 +193,8 @@ public class VueControleurGyromite extends JFrame implements Observer {
         // charger une sous partie de l'image à partir de ses coordonnées dans urlIcone
         BufferedImage bi = getSubImage(urlIcone, x, y, w, h);
         // adapter la taille de l'image a la taille du composant (ici : 20x20)
-		int scale_x = 1280 / this.sizeX;
-		int scale_y = 720 / this.sizeY;
+        int scale_x = 1280 / this.sizeX;
+        int scale_y = 720 / this.sizeY;
         return new ImageIcon(bi.getScaledInstance(scale_x, scale_y, java.awt.Image.SCALE_SMOOTH));
     }
 
