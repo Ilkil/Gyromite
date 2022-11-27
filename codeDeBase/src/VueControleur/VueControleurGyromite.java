@@ -44,7 +44,7 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
 
     public VueControleurGyromite(Jeu _jeu) {
-        sizeX = jeu.SIZE_X;
+        sizeX = _jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
 
@@ -75,17 +75,17 @@ public class VueControleurGyromite extends JFrame implements Observer {
         icoHero = chargerIcone("Images/player.png", 0, 0, 35, 40);  //chargerIcone("Images/Pacman.png");
         icoBot = chargerIcone("Images/smick.png", 0, 0, 35, 25); //chargerIcone("Images/Pacman.png");
         icoVide = chargerIcone("Images/Vide.png"); //chargerIcone("Images/Vide.png");
-        icoColonne = chargerIcone("Images/Colonne.png"); //chargerIcone("Images/Colonne.png");
-        icoMur = chargerIcone("Images/Mur.png"); //chargerIcone("Images/Mur.png");
+        icoColonne = chargerIcone("Images/Colonne.png", 0, 0, 18, 18); //chargerIcone("Images/Colonne.png");
+        icoMur = chargerIcone("Images/Mur.png", 0, 0, 18, 18); //chargerIcone("Images/Mur.png");
         icoBombe = chargerIcone("Images/bomb.png", 0, 0, 70, 50); //chargerIcone("Images/bomb.png");
         icoBonus = chargerIcone("Images/particles.png", 0, 0, 20, 20); //chargerIcone("Images/particules.png");
-        icoCorde = chargerIcone("Images/tileset.png", 17, 0, 17, 17); //chargerIcone("Images/tileset.png");
+        icoCorde = chargerIcone("Images/tileset.png", 16, 0, 16, 16); //chargerIcone("Images/tileset.png");
         icoSol = chargerIcone("Images/tileset.png", 0, 0, 5, 5); 
      }
 
     private void placerLesComposantsGraphiques() {
         setTitle("Gyromite");
-        setSize(800, 500);
+        setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
         JComponent grilleJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
@@ -183,7 +183,9 @@ public class VueControleurGyromite extends JFrame implements Observer {
         // charger une sous partie de l'image à partir de ses coordonnées dans urlIcone
         BufferedImage bi = getSubImage(urlIcone, x, y, w, h);
         // adapter la taille de l'image a la taille du composant (ici : 20x20)
-        return new ImageIcon(bi.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
+		int scale_x = 1280 / this.sizeX;
+		int scale_y = 720 / this.sizeY;
+        return new ImageIcon(bi.getScaledInstance(scale_x, scale_y, java.awt.Image.SCALE_SMOOTH));
     }
 
     private BufferedImage getSubImage(String urlIcone, int x, int y, int w, int h) {
