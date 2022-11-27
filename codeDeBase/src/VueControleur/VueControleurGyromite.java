@@ -35,6 +35,10 @@ public class VueControleurGyromite extends JFrame implements Observer {
     private ImageIcon icoVide;
     private ImageIcon icoMur;
     private ImageIcon icoColonne;
+    private ImageIcon icoBombe; 
+    private ImageIcon icoBonus; 
+    private ImageIcon icoCorde; 
+    private ImageIcon icoSol; 
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
@@ -58,6 +62,9 @@ public class VueControleurGyromite extends JFrame implements Observer {
                     case KeyEvent.VK_RIGHT : Controle4Directions.getInstance().setDirectionCourante(Direction.droite); break;
                     case KeyEvent.VK_DOWN : Controle4Directions.getInstance().setDirectionCourante(Direction.bas); break;
                     case KeyEvent.VK_UP : Controle4Directions.getInstance().setDirectionCourante(Direction.haut); break;
+
+                    case KeyEvent.VK_Z: modele.deplacements.Colonne.getInstance().setDirectionCourante(Direction.haut); break;
+                    case KeyEvent.VK_S: modele.deplacements.Colonne.getInstance().setDirectionCourante(Direction.bas); break;
                 }
             }
         });
@@ -65,17 +72,19 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
 
     private void chargerLesIcones() {
-        icoHero = chargerIcone("Images/player.png", 0, 0, 35, 40);//chargerIcone("Images/Pacman.png");
-        icoBot = chargerIcone("Images/smick.png", 0, 0, 20, 20);//chargerIcone("Images/Pacman.png");
-
-        icoVide = chargerIcone("Images/Vide.png");
-        icoColonne = chargerIcone("Images/Colonne.png");
-        icoMur = chargerIcone("Images/Mur.png");
-    }
+        icoHero = chargerIcone("Images/player.png", 0, 0, 35, 40);  //chargerIcone("Images/Pacman.png");
+        icoBot = chargerIcone("Images/smick.png", 0, 0, 35, 25); //chargerIcone("Images/Pacman.png");
+        icoVide = chargerIcone("Images/Vide.png"); //chargerIcone("Images/Vide.png");
+        icoColonne = chargerIcone("Images/Colonne.png"); //chargerIcone("Images/Colonne.png");
+        icoMur = chargerIcone("Images/Mur.png"); //chargerIcone("Images/Mur.png");
+        icoBombe = chargerIcone("Images/bomb.png", 0, 0, 70, 50); //chargerIcone("Images/bomb.png");
+        icoBonus = chargerIcone("Images/particles.png", 0, 0, 20, 20); //chargerIcone("Images/particules.png");
+        icoCorde = chargerIcone("Images/tileset.png", 17, 0, 17, 17); //chargerIcone("Images/tileset.png");
+        icoSol = chargerIcone("Images/tileset.png", 0, 0, 5, 5); 
+     }
 
     private void placerLesComposantsGraphiques() {
-        //setTitle("Gyromite");
-        setTitle("La Zarmite");
+        setTitle("Gyromite");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
@@ -106,19 +115,34 @@ public class VueControleurGyromite extends JFrame implements Observer {
 
                     tabJLabel[x][y].setIcon(icoHero);
 
-                    // si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
+                    //si transparence : images avec canal alpha + dessins manuels (voir ci-dessous + créer composant qui redéfinie paint(Graphics g)), se documenter
                     //BufferedImage bi = getImage("Images/smick.png", 0, 0, 20, 20);
                     //tabJLabel[x][y].getGraphics().drawImage(bi, 0, 0, null);
 
-                } else if (jeu.getGrille()[x][y] instanceof Bot) {
-                    tabJLabel[x][y].setIcon(icoBot);
-
-                } else if (jeu.getGrille()[x][y] instanceof Mur) {
+                } 
+                else if (jeu.getGrille()[x][y] instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
-                } else if (jeu.getGrille()[x][y] instanceof Colonne) {
+                }
+                else if (jeu.getGrille()[x][y] instanceof Bot) {
+                    tabJLabel[x][y].setIcon(icoBot);
+                }
+                else if (jeu.getGrille()[x][y] instanceof Colonne) {
                     tabJLabel[x][y].setIcon(icoColonne);
-                } else {
-                    tabJLabel[x][y].setIcon(icoVide);
+                } 
+                else if (jeu.getGrille()[x][y] instanceof Bombe) {
+                    tabJLabel[x][y].setIcon(icoBombe);
+                }
+                else if (jeu.getGrille()[x][y] instanceof Bonus) {
+                    tabJLabel[x][y].setIcon(icoBonus);
+                }
+                else if (jeu.getGrille()[x][y] instanceof Corde) {
+                    tabJLabel[x][y].setIcon(icoCorde);
+                }
+                else if (jeu.getGrille()[x][y] instanceof Sol) {
+                    tabJLabel[x][y].setIcon(icoSol);
+                }
+                else {
+                    tabJLabel[x][y].setIcon(icoMur);
                 }
             }
         }
@@ -134,13 +158,13 @@ public class VueControleurGyromite extends JFrame implements Observer {
                         mettreAJourAffichage();
                     }
                 }); 
-        */
-
+    
+       */
     }
 
 
     // chargement de l'image entière comme icone
-    private ImageIcon chargerIcone(String urlIcone) {
+     private ImageIcon chargerIcone(String urlIcone) {
         BufferedImage image = null;
 
         try {
