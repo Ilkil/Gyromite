@@ -6,7 +6,7 @@
 
 - [ ] Cordes
 - [x] Deplacement des colonnes
-    - [ ] Un seul bouton pour monter/descendre
+    - [x] Un seul bouton pour monter/descendre
     - [ ] Colonnes Bleu et Rouge (pas le même bouton)
 - [x] IA Smicks
 - [ ] Gestion des points de vie

@@ -84,7 +84,7 @@ public class Jeu {
         }
 
         addEntite(hector,1, 17); // sur un pillier
-        
+
         addEntite(col[0], 6,2);
         addEntite(col[1], 6,1);
 
