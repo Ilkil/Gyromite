@@ -84,8 +84,7 @@ public class Jeu {
         }
 
         addEntite(hector,1, 17); // sur un pillier
-
-
+        
         addEntite(col[0], 6,2);
         addEntite(col[1], 6,1);
 
@@ -121,8 +120,9 @@ public class Jeu {
 
         for(int i=0; i<2; i++) {
             modele.deplacements.Colonne.getInstance().addEntiteDynamique(col[i]);
+            ordonnanceur.add(modele.deplacements.Colonne.getInstance());
         }
-        ordonnanceur.add(modele.deplacements.Colonne.getInstance());
+
 
         //Création Entités Statiques
         // murs extérieurs horizontaux
