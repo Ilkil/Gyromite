@@ -38,6 +38,6 @@ public class IA extends RealisateurDeDeplacement {
             }
         }
         return ret;
-    } // TODO
+    }
 
 }

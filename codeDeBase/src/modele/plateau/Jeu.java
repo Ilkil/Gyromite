@@ -30,7 +30,7 @@ public class Jeu {
 
     private Heros hector;
     private Bot[] bot;
-    private Colonne col;
+    private Colonne[] col;
 
     private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
     private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
@@ -78,10 +78,16 @@ public class Jeu {
             bot[i] = new Bot(this);
         }
         hector = new Heros(this);
-        col = new Colonne(this);
-        addEntite(hector,1, 17); // sur un pillier
-        addEntite(col, 6,2);
+        col = new Colonne[2];
+        for (int i = 0; i < 2; i++) {
+            col[i] = new Colonne(this);
+        }
 
+        addEntite(hector,1, 17); // sur un pillier
+
+
+        addEntite(col[0], 6,2);
+        addEntite(col[1], 6,1);
 
         addEntite(bot[0], 3, 3);
         addEntite(bot[1], 10,1);
@@ -113,7 +119,9 @@ public class Jeu {
         Controle4Directions.getInstance().addEntiteDynamique(hector);
         ordonnanceur.add(Controle4Directions.getInstance());
 
-        modele.deplacements.Colonne.getInstance().addEntiteDynamique(col);
+        for(int i=0; i<2; i++) {
+            modele.deplacements.Colonne.getInstance().addEntiteDynamique(col[i]);
+        }
         ordonnanceur.add(modele.deplacements.Colonne.getInstance());
 
         //Création Entités Statiques
